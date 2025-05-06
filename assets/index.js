@@ -54,6 +54,12 @@ function draw() {
     context.drawImage(pipeBottom, pipes[i].x, pipes[i].y + canvas.height - gap, 150, 410);
 
     pipes[i].x -= 5;
+    if (pipes[i].x == 1500) {
+      pipes.push({
+        x: canvas.width,
+        y: Math.floor(Math.random() * pipeTop.height) - pipeTop.height,
+      });
+    }
   }
 
   context.drawImage(bird.image, bird.position.x, bird.position.y, bird.image.width, bird.image.height);
