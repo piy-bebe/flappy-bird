@@ -23,7 +23,7 @@ const bird = {
     x: 0,
     y: 0,
   },
-  gravitation: 7,
+  gravitation: 3,
 };
 
 document.addEventListener('keydown', moveUp);
@@ -49,16 +49,20 @@ let gap = 100;
 
 function draw() {
   context.clearRect(0, 0, canvas.width, canvas.height);
+
   for (let i = 0; i < pipes.length; i++) {
     context.drawImage(pipeTop, pipes[i].x, pipes[i].y, 150, 410);
     context.drawImage(pipeBottom, pipes[i].x, pipes[i].y + canvas.height - gap, 150, 410);
 
     pipes[i].x -= 5;
-    if (pipes[i].x == 1500) {
+    if (pipes[i].x == 500) {
       pipes.push({
         x: canvas.width,
         y: Math.floor(Math.random() * pipeTop.height) - pipeTop.height,
       });
+    }
+    if (pipes[i].x < -1000) {
+      pipes.shift();
     }
   }
 
