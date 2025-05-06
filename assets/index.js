@@ -45,24 +45,33 @@ pipes[0] = {
   y: 0,
 };
 
-let gap = 100;
+let gap = 10;
 
 function draw() {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < pipes.length; i++) {
-    context.drawImage(pipeTop, pipes[i].x, pipes[i].y, 150, 410);
-    context.drawImage(pipeBottom, pipes[i].x, pipes[i].y + canvas.height - gap, 150, 410);
+    context.drawImage(pipeTop, pipes[i].x, pipes[i].y, 150, 400);
+    context.drawImage(pipeBottom, pipes[i].x, pipes[i].y + canvas.height - gap, 150, 400);
 
     pipes[i].x -= 5;
+
     if (pipes[i].x == 500) {
       pipes.push({
         x: canvas.width,
-        y: Math.floor(Math.random() * pipeTop.height) - pipeTop.height,
+        y: Math.floor(Math.random() * 400) - 400,
       });
     }
     if (pipes[i].x < -1000) {
       pipes.shift();
+    }
+
+    if (
+      bird.position.x >= pipes[i].x &&
+      bird.position.x <= pipes[i].x + 150 &&
+      bird.position.y <= pipes[i].y + 400
+    ) {
+      console.log('+');
     }
   }
 
