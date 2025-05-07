@@ -16,17 +16,17 @@ resizeCanvas();
 // const pipeUp = new Image();
 const pipeTop = new Image();
 const pipeBottom = new Image();
-
 const bird = {
   image: new Image(),
   position: {
     x: 0,
     y: 0,
   },
-  gravitation: 3,
+  gravitation: 4.5,
 };
 
-document.addEventListener('keydown', moveUp);
+bird.position.x = 200;
+// document.addEventListener('keydown', moveUp);
 document.addEventListener('mousedown', moveUp);
 
 function moveUp() {
@@ -40,57 +40,74 @@ pipeBottom.src = 'assets/images/pipeBottom.png';
 
 const pipes = [];
 
+let gap = 140;
+
+const aspectRatio = bird.image.height / bird.image.width;
+
+const newWidth = 50;
+const newHeight = newWidth / aspectRatio;
+
+bird.image.width = newWidth;
+bird.image.height = newHeight;
+// pipeTop
+const aspectRatio2 = pipeTop.height / pipeTop.width;
+
+const newWidth2 = 550;
+const newHeight2 = newWidth2 / aspectRatio2;
+
+pipeTop.width = newWidth2;
+pipeTop.height = newHeight2;
+
+// pipeBottom
+const aspectRatio3 = pipeBottom.height / pipeBottom.width;
+
+const newWidth3 = 550;
+const newHeight3 = newWidth3 / aspectRatio3;
+
+pipeBottom.width = newWidth3;
+pipeBottom.height = newHeight3;
 pipes[0] = {
   x: canvas.width,
-  y: 0,
+  y: Math.floor(Math.random() * -pipeTop.height * 7),
 };
-
-let gap = 10;
-
 function draw() {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < pipes.length; i++) {
-    context.drawImage(pipeTop, pipes[i].x, pipes[i].y, 150, 400);
-    context.drawImage(pipeBottom, pipes[i].x, pipes[i].y + canvas.height - gap, 150, 400);
+    console.log(i);
+    context.drawImage(pipeTop, pipes[i].x, pipes[i].y, pipeTop.height, pipeTop.width);
+    context.drawImage(
+      pipeBottom,
+      pipes[i].x,
+      pipes[i].y + canvas.height - gap,
+      pipeBottom.height,
+      pipeBottom.width
+    );
 
     pipes[i].x -= 5;
 
-    if (pipes[i].x == 500) {
+    if (pipes[i].x == 1240) {
       pipes.push({
         x: canvas.width,
-        y: Math.floor(Math.random() * 400) - 400,
+        y: Math.floor(Math.random() * -pipeTop.height * 6),
       });
     }
-    if (pipes[i].x < -1000) {
-      pipes.shift();
-    }
+    // if (pipes[i].x < -1000) {
+    //   pipes.shift();
+    // }
 
-    if (
-      bird.position.x >= pipes[i].x &&
-      bird.position.x <= pipes[i].x + 150 &&
-      bird.position.y <= pipes[i].y + 400
-    ) {
-      console.log('+');
+    if (bird.position.y > canvas.height || bird.position.y < -40) {
+      location.reload();
+      break;
     }
   }
 
-  context.drawImage(bird.image, bird.position.x, bird.position.y, bird.image.width, bird.image.height);
+  context.drawImage(bird.image, bird.position.x, bird.position.y, bird.image.height, bird.image.width);
 
   bird.position.y += bird.gravitation;
 
   requestAnimationFrame(draw);
 }
-
-bird.onload = function () {
-  const aspectRatio = bird.height / bird.width;
-
-  const newWidth = 200;
-  const newHeight = newWidth / aspectRatio;
-
-  bird.width = newWidth;
-  bird.height = newHeight;
-};
 
 pipeBottom.onload = function () {
   draw();
