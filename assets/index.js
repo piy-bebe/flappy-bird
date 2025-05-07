@@ -20,7 +20,7 @@ const bird = {
   image: new Image(),
   position: {
     x: 0,
-    y: 0,
+    y: canvas.height / 3,
   },
   gravitation: 4.5,
 };
@@ -68,13 +68,12 @@ pipeBottom.width = newWidth3;
 pipeBottom.height = newHeight3;
 pipes[0] = {
   x: canvas.width,
-  y: Math.floor(Math.random() * -pipeTop.height * 7),
+  y: Math.floor(Math.random() * -pipeTop.height * 5),
 };
 function draw() {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < pipes.length; i++) {
-    console.log(i);
     context.drawImage(pipeTop, pipes[i].x, pipes[i].y, pipeTop.height, pipeTop.width);
     context.drawImage(
       pipeBottom,
@@ -86,7 +85,7 @@ function draw() {
 
     pipes[i].x -= 5;
 
-    if (pipes[i].x == 1240) {
+    if (pipes[i].x == 1540) {
       pipes.push({
         x: canvas.width,
         y: Math.floor(Math.random() * -pipeTop.height * 6),
@@ -96,9 +95,17 @@ function draw() {
     //   pipes.shift();
     // }
 
-    if (bird.position.y > canvas.height || bird.position.y < -40) {
-      location.reload();
-      break;
+    const isMapBoundary = bird.position.y > canvas.height || bird.position.y < -40;
+    const isPipeBoundary =
+      bird.position.x + bird.image.width >= pipes[i].x &&
+      bird.position.x <= pipes[i].x + pipeTop.height &&
+      (bird.position.y + 30 <= Math.abs(pipes[i].y + 550) ||
+        bird.position.y + (bird.image.height - 30) >= pipes[i].y + canvas.height - gap);
+
+    console.log(pipeTop.width);
+
+    if (isMapBoundary || isPipeBoundary) {
+      return;
     }
   }
 
