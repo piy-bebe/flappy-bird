@@ -115,7 +115,7 @@ function draw() {
   bird.position.y += bird.gravitation;
 
   context.fillStyle = '#fff';
-  context.font = '164px Consolas';
+  context.font = "124px 'Press Start 2P'";
   context.fillText(score, 50, 150);
 
   requestAnimationFrame(draw);
