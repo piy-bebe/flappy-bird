@@ -41,6 +41,8 @@ pipeBottom.src = 'assets/images/pipeBottom.png';
 const pipes = [];
 
 let gap = 140;
+let score = 0;
+let speedPipe = 5;
 
 const aspectRatio = bird.image.height / bird.image.width;
 
@@ -83,7 +85,11 @@ function draw() {
       pipeBottom.width
     );
 
-    pipes[i].x -= 5;
+    pipes[i].x -= speedPipe;
+
+    if (pipes[i].x == 200 - bird.image.width) {
+      score++;
+    }
 
     if (pipes[i].x == 1540) {
       pipes.push({
@@ -91,9 +97,6 @@ function draw() {
         y: Math.floor(Math.random() * -pipeTop.height * 6),
       });
     }
-    // if (pipes[i].x < -1000) {
-    //   pipes.shift();
-    // }
 
     const isMapBoundary = bird.position.y > canvas.height || bird.position.y < -40;
     const isPipeBoundary =
@@ -101,8 +104,6 @@ function draw() {
       bird.position.x <= pipes[i].x + pipeTop.height &&
       (bird.position.y + 30 <= Math.abs(pipes[i].y + 550) ||
         bird.position.y + (bird.image.height - 30) >= pipes[i].y + canvas.height - gap);
-
-    console.log(pipeTop.width);
 
     if (isMapBoundary || isPipeBoundary) {
       return;
@@ -112,6 +113,10 @@ function draw() {
   context.drawImage(bird.image, bird.position.x, bird.position.y, bird.image.height, bird.image.width);
 
   bird.position.y += bird.gravitation;
+
+  context.fillStyle = '#fff';
+  context.font = '164px Consolas';
+  context.fillText(score, 50, 150);
 
   requestAnimationFrame(draw);
 }
