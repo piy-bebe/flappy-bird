@@ -16,6 +16,8 @@ resizeCanvas();
 // const background = new Image();
 // const foreground = new Image();
 // const pipeUp = new Image();
+const ground = new Image();
+
 const pipeTop = new Image();
 const pipeBottom = new Image();
 const bird = {
@@ -34,19 +36,20 @@ document.addEventListener('mousedown', moveUp);
 let x = 0;
 function moveUp() {
   const interval = setInterval(() => {
-    x += 16;
+    x += 10;
     bird.position.y -= 16;
-    if (x >= 160) {
+    if (x >= 100) {
       clearInterval(interval);
       x = 0;
     }
-  }, 10);
+  }, 15);
 }
 
 bird.image.src = 'assets/images/bird.png';
 
 pipeTop.src = 'assets/images/pipeTop.png';
 pipeBottom.src = 'assets/images/pipeBottom.png';
+ground.src = 'assets/images/ground.png';
 
 const pipes = [];
 
@@ -82,6 +85,16 @@ pipes[0] = {
   x: canvas.width,
   y: Math.floor(Math.random() * -pipeTop.height * 5),
 };
+
+// ground
+const aspectRatio4 = ground.height / ground.width;
+
+const newWidth4 = 120;
+const newHeight4 = newWidth4 / aspectRatio4;
+
+ground.width = newWidth4;
+ground.height = newHeight4;
+
 function draw() {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -108,7 +121,8 @@ function draw() {
       });
     }
 
-    const isMapBoundary = bird.position.y > canvas.height || bird.position.y < -40;
+    const isMapBoundary =
+      bird.position.y + bird.image.height - 30 > canvas.height - ground.width || bird.position.y < -40;
     const isPipeBoundary =
       bird.position.x + bird.image.width >= pipes[i].x &&
       bird.position.x <= pipes[i].x + pipeTop.height &&
@@ -122,6 +136,10 @@ function draw() {
   }
 
   context.drawImage(bird.image, bird.position.x, bird.position.y, bird.image.height, bird.image.width);
+
+  for (let i = 0; i <= canvas.width; i += ground.width) {
+    context.drawImage(ground, i, canvas.height - ground.width, ground.height, ground.width);
+  }
 
   bird.position.y += bird.gravitation;
 
