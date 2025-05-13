@@ -31,8 +31,16 @@ bird.position.x = 200;
 // document.addEventListener('keydown', moveUp);
 document.addEventListener('mousedown', moveUp);
 
+let x = 0;
 function moveUp() {
-  bird.position.y -= 160;
+  const interval = setInterval(() => {
+    x += 16;
+    bird.position.y -= 16;
+    if (x >= 160) {
+      clearInterval(interval);
+      x = 0;
+    }
+  }, 10);
 }
 
 bird.image.src = 'assets/images/bird.png';
