@@ -1,3 +1,5 @@
+import { gameOver } from './components/game-over.js';
+
 /** @type {HTMLCanvasElement} */
 const canvas = document.querySelector('#canvas');
 
@@ -106,6 +108,7 @@ function draw() {
         bird.position.y + (bird.image.height - 30) >= pipes[i].y + canvas.height - gap);
 
     if (isMapBoundary || isPipeBoundary) {
+      gameOver(score);
       return;
     }
   }
