@@ -32,8 +32,20 @@ const bird = {
 bird.position.x = 200;
 // document.addEventListener('keydown', moveUp);
 document.addEventListener('mousedown', moveUp);
+document.addEventListener('keypress', moveDown);
 
 let x = 0;
+function moveDown() {
+  const interval = setInterval(() => {
+    x += 10;
+    bird.position.y += 16;
+    if (x >= 100) {
+      clearInterval(interval);
+      x = 0;
+    }
+  }, 15);
+}
+
 function moveUp() {
   const interval = setInterval(() => {
     x += 10;
