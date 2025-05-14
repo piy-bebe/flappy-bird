@@ -1,3 +1,4 @@
+import { skills } from '../game/core/shop.js';
 import { gameOver } from './components/game-over.js';
 
 /** @type {HTMLCanvasElement} */
@@ -65,9 +66,16 @@ ground.src = 'assets/images/ground.png';
 
 const pipes = [];
 
+const db = {
+  coins: 0,
+};
+
 let gap = 140;
 let score = 0;
 let speedPipe = 5;
+
+const coins = document.querySelector('.coins');
+coins.textContent = 'Coins: 0';
 
 const aspectRatio = bird.image.height / bird.image.width;
 
@@ -124,6 +132,8 @@ function draw() {
 
     if (pipes[i].x == 200 - bird.image.width) {
       score++;
+      db.coins += 1;
+      coins.textContent = `Coins: ${db.coins}`;
     }
 
     if (pipes[i].x == 1540) {
@@ -141,8 +151,16 @@ function draw() {
       (bird.position.y + 30 <= Math.abs(pipes[i].y + 550) ||
         bird.position.y + (bird.image.height - 30) >= pipes[i].y + canvas.height - gap);
 
+    // Конец игры
     if (isMapBoundary || isPipeBoundary) {
       gameOver(score);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      pipes.length = 0;
+      pipes[0] = {
+        x: canvas.width,
+        y: Math.floor(Math.random() * -pipeTop.height * 5),
+      };
+      score = 0;
       return;
     }
   }
@@ -165,6 +183,26 @@ function draw() {
 const play = document.querySelector('#play');
 
 play.addEventListener('click', () => {
-  document.querySelector('.page').remove();
+  document.querySelector('.page').style.display = 'none';
+  bird.position.x = 200;
+  bird.position.y = canvas.height / 3;
   draw();
+});
+
+const shop = document.querySelector('#shop');
+
+shop.addEventListener('click', () => {
+  document.querySelector('.shop').style.display = 'flex';
+  document.querySelector('.page').style.display = 'none';
+
+  skills();
+});
+
+const back = document.querySelector('#back');
+
+back.addEventListener('click', () => {
+  document.querySelector('.shop').style.display = 'none';
+  document.querySelector('.page').style.display = 'flex';
+
+  document.querySelector('.skills').innerHTML = '';
 });

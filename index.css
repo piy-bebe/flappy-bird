@@ -2,7 +2,6 @@ body {
   background-color: rgb(93, 199, 248);
   margin: 0;
   overflow: hidden;
-  position: relative;
 }
 
 #canvas {
@@ -40,6 +39,14 @@ body {
   max-width: 1240px;
 }
 
+.shop {
+  display: none;
+  align-items: center;
+  margin: 100px auto;
+  flex-direction: column;
+  max-width: 1240px;
+}
+
 .title {
   font-family: 'Press Start 2P';
   font-size: 56px;
@@ -64,5 +71,36 @@ body {
 }
 
 .menu {
+  display: flex;
+  flex-direction: column;
   margin-top: 40px;
+  gap: 30px;
+}
+
+.skill {
+  border: 6px dashed #fff;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 0px;
+  width: 75px;
+  height: 75px;
+}
+
+.skill:hover {
+  cursor: pointer;
+  border-color: #5fff67;
+}
+
+.skill-size {
+  transform: scale(2.4);
+}
+
+.coins {
+  display: flex;
+  position: absolute;
+  font-family: 'Press Start 2P';
+  font-size: 24px;
+  color: #ffdb0e;
+  top: 5%;
+  right: 5%;
 }
