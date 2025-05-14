@@ -31,3 +31,38 @@ body {
   font-family: 'Press Start 2P';
   color: #fff;
 }
+
+.page {
+  display: flex;
+  align-items: center;
+  margin: 100px auto;
+  flex-direction: column;
+  max-width: 1240px;
+}
+
+.title {
+  font-family: 'Press Start 2P';
+  font-size: 56px;
+  color: #fff;
+}
+
+.button {
+  width: 400px;
+  height: 100px;
+  background-color: transparent;
+  border: 4px dashed #fff;
+
+  font-family: 'Press Start 2P';
+  font-size: 24px;
+  color: #fff;
+}
+
+.button:hover {
+  cursor: pointer;
+  color: #5fff67;
+  border-color: #5fff67;
+}
+
+.menu {
+  margin-top: 40px;
+}

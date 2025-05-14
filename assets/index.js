@@ -162,6 +162,9 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-pipeBottom.onload = function () {
+const play = document.querySelector('#play');
+
+play.addEventListener('click', () => {
+  document.querySelector('.page').remove();
   draw();
-};
+});
