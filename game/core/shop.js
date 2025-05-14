@@ -1,3 +1,5 @@
+import { db } from '../store/index.js';
+
 const item = [
   {
     name: 'downjump',
@@ -15,6 +17,15 @@ const createSkill = ({ name, icon }) => {
   const span = document.createElement('span');
   span.className = 'material-symbols-outlined skill-size';
   span.textContent = icon;
+
+  button.addEventListener('click', () => {
+    if (db.coins >= 10) {
+      console.log('Покупка прошла успешно');
+      db.coins -= 10;
+      const coins = document.querySelector('.coins');
+      coins.textContent = `Coins: ${db.coins}`;
+    }
+  });
 
   button.append(span);
 

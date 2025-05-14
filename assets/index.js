@@ -1,4 +1,5 @@
 import { skills } from '../game/core/shop.js';
+import { db } from '../game/store/index.js';
 import { gameOver } from './components/game-over.js';
 
 /** @type {HTMLCanvasElement} */
@@ -65,10 +66,6 @@ pipeBottom.src = 'assets/images/pipeBottom.png';
 ground.src = 'assets/images/ground.png';
 
 const pipes = [];
-
-const db = {
-  coins: 0,
-};
 
 let gap = 140;
 let score = 0;
