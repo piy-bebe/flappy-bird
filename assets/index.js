@@ -34,7 +34,6 @@ const bird = {
 bird.position.x = 200;
 // document.addEventListener('keydown', moveUp);
 document.addEventListener('mousedown', moveUp);
-document.addEventListener('keypress', moveDown);
 
 let x = 0;
 function moveDown() {
@@ -180,6 +179,9 @@ function draw() {
 const play = document.querySelector('#play');
 
 play.addEventListener('click', () => {
+  if (db.skills.includes('downjump')) {
+    document.addEventListener('keypress', moveDown);
+  }
   document.querySelector('.page').style.display = 'none';
   bird.position.x = 200;
   bird.position.y = canvas.height / 3;

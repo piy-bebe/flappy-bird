@@ -21,6 +21,7 @@ const createSkill = ({ name, icon }) => {
   button.addEventListener('click', () => {
     if (db.coins >= 10) {
       console.log('Покупка прошла успешно');
+      db.skills.push('downjump');
       db.coins -= 10;
       const coins = document.querySelector('.coins');
       coins.textContent = `Coins: ${db.coins}`;
