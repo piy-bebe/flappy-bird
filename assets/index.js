@@ -23,32 +23,6 @@ const ground = new Image();
 
 const pipeTop = new Image();
 const pipeBottom = new Image();
-const bird = {
-  image: new Image(),
-  position: {
-    x: 0,
-    y: canvas.height / 3,
-  },
-  gravitation: 2,
-};
-
-bird.position.x = 200;
-
-// document.addEventListener('keydown', moveUp);
-
-let x = 0;
-function moveDown() {
-  const interval = setInterval(() => {
-    x += 10;
-    bird.position.y += 16;
-    if (x >= 100) {
-      clearInterval(interval);
-      x = 0;
-    }
-  }, 15);
-}
-
-bird.image.src = 'assets/images/bird.png';
 
 pipeTop.src = 'assets/images/pipeTop.png';
 pipeBottom.src = 'assets/images/pipeBottom.png';
@@ -63,13 +37,6 @@ let speedPipe = 3;
 const coins = document.querySelector('.coins');
 coins.textContent = 'Coins: 0';
 
-const aspectRatio = bird.image.height / bird.image.width;
-
-const newWidth = 50;
-const newHeight = newWidth / aspectRatio;
-
-bird.image.width = newWidth;
-bird.image.height = newHeight;
 // pipeTop
 const aspectRatio2 = pipeTop.height / pipeTop.width;
 
@@ -101,87 +68,109 @@ const newHeight4 = newWidth4 / aspectRatio4;
 ground.width = newWidth4;
 ground.height = newHeight4;
 
-function draw() {
+function startGame() {
+  const bird = {
+    image: new Image(),
+    position: {
+      x: 0,
+      y: canvas.height / 3,
+    },
+    gravitation: 2,
+  };
+
+  bird.position.x = 200;
+  bird.image.src = 'assets/images/bird.png';
+
+  const aspectRatio = bird.image.height / bird.image.width;
+
+  const newWidth = 50;
+  const newHeight = newWidth / aspectRatio;
+
+  bird.image.width = newWidth;
+  bird.image.height = newHeight;
+
   document.addEventListener('mousedown', () => {
     jump(bird);
   });
-  context.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = 0; i < pipes.length; i++) {
-    context.drawImage(pipeTop, pipes[i].x, pipes[i].y, pipeTop.height, pipeTop.width);
-    context.drawImage(
-      pipeBottom,
-      pipes[i].x,
-      pipes[i].y + canvas.height - gap,
-      pipeBottom.height,
-      pipeBottom.width
-    );
+  function draw() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-    pipes[i].x -= speedPipe;
+    for (let i = 0; i < pipes.length; i++) {
+      context.drawImage(pipeTop, pipes[i].x, pipes[i].y, pipeTop.height, pipeTop.width);
+      context.drawImage(
+        pipeBottom,
+        pipes[i].x,
+        pipes[i].y + canvas.height - gap,
+        pipeBottom.height,
+        pipeBottom.width
+      );
 
-    if (pipes[i].x == 200 - bird.image.width) {
-      score++;
-      db.coins += 1;
-      coins.textContent = `Coins: ${db.coins}`;
+      pipes[i].x -= speedPipe;
+
+      if (pipes[i].x == 200 - bird.image.width) {
+        score++;
+        db.coins += 1;
+        coins.textContent = `Coins: ${db.coins}`;
+      }
+
+      if (pipes[pipes.length - 1].x < 1540) {
+        pipes.push({
+          x: canvas.width,
+          y: Math.floor(Math.random() * -pipeTop.height * 6),
+        });
+      }
+
+      const isMapBoundary =
+        bird.position.y + bird.image.height - 30 > canvas.height - ground.width || bird.position.y < -40;
+      const isPipeBoundary =
+        bird.position.x + bird.image.width >= pipes[i].x &&
+        bird.position.x <= pipes[i].x + pipeTop.height &&
+        (bird.position.y + 30 <= Math.abs(pipes[i].y + 550) ||
+          bird.position.y + (bird.image.height - 30) >= pipes[i].y + canvas.height - gap);
+
+      // Конец игры
+      if (isMapBoundary || isPipeBoundary) {
+        gameOver(score);
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        pipes.length = 0;
+        pipes[0] = {
+          x: canvas.width,
+          y: Math.floor(Math.random() * -pipeTop.height * 5),
+        };
+
+        score = 0;
+
+        return;
+      }
     }
 
-    if (pipes[pipes.length - 1].x < 1540) {
-      pipes.push({
-        x: canvas.width,
-        y: Math.floor(Math.random() * -pipeTop.height * 6),
-      });
+    context.drawImage(bird.image, bird.position.x, bird.position.y, bird.image.height, bird.image.width);
+
+    for (let i = 0; i <= canvas.width; i += ground.width) {
+      context.drawImage(ground, i, canvas.height - ground.width, ground.height, ground.width);
     }
 
-    const isMapBoundary =
-      bird.position.y + bird.image.height - 30 > canvas.height - ground.width || bird.position.y < -40;
-    const isPipeBoundary =
-      bird.position.x + bird.image.width >= pipes[i].x &&
-      bird.position.x <= pipes[i].x + pipeTop.height &&
-      (bird.position.y + 30 <= Math.abs(pipes[i].y + 550) ||
-        bird.position.y + (bird.image.height - 30) >= pipes[i].y + canvas.height - gap);
+    bird.position.y += bird.gravitation;
 
-    // Конец игры
-    if (isMapBoundary || isPipeBoundary) {
-      gameOver(score);
+    context.fillStyle = '#fff';
+    context.font = "124px 'Press Start 2P'";
+    context.fillText(score, 50, 150);
 
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      pipes.length = 0;
-      pipes[0] = {
-        x: canvas.width,
-        y: Math.floor(Math.random() * -pipeTop.height * 5),
-      };
-
-      score = 0;
-
-      return;
-    }
+    requestAnimationFrame(draw);
   }
 
-  context.drawImage(bird.image, bird.position.x, bird.position.y, bird.image.height, bird.image.width);
-
-  for (let i = 0; i <= canvas.width; i += ground.width) {
-    context.drawImage(ground, i, canvas.height - ground.width, ground.height, ground.width);
-  }
-
-  bird.position.y += bird.gravitation;
-
-  context.fillStyle = '#fff';
-  context.font = "124px 'Press Start 2P'";
-  context.fillText(score, 50, 150);
-
-  requestAnimationFrame(draw);
+  draw();
 }
 
 const play = document.querySelector('#play');
 
 play.addEventListener('click', () => {
-  document.addEventListener('keypress', moveDown);
-
   document.querySelector('.page').style.display = 'none';
-  bird.position.x = 200;
-  bird.position.y = canvas.height / 3;
-  draw();
+
+  startGame();
 });
 
 const shop = document.querySelector('#shop');
