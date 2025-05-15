@@ -1,3 +1,4 @@
+import { jump } from '../game/core/movement.js';
 import { skills } from '../game/core/shop.js';
 import { db } from '../game/store/index.js';
 import { gameOver } from './components/game-over.js';
@@ -28,29 +29,18 @@ const bird = {
     x: 0,
     y: canvas.height / 3,
   },
-  gravitation: 4.5,
+  gravitation: 2,
 };
 
 bird.position.x = 200;
+
 // document.addEventListener('keydown', moveUp);
-document.addEventListener('mousedown', moveUp);
 
 let x = 0;
 function moveDown() {
   const interval = setInterval(() => {
     x += 10;
     bird.position.y += 16;
-    if (x >= 100) {
-      clearInterval(interval);
-      x = 0;
-    }
-  }, 15);
-}
-
-function moveUp() {
-  const interval = setInterval(() => {
-    x += 10;
-    bird.position.y -= 16;
     if (x >= 100) {
       clearInterval(interval);
       x = 0;
@@ -68,7 +58,7 @@ const pipes = [];
 
 let gap = 140;
 let score = 0;
-let speedPipe = 5;
+let speedPipe = 3;
 
 const coins = document.querySelector('.coins');
 coins.textContent = 'Coins: 0';
@@ -112,6 +102,9 @@ ground.width = newWidth4;
 ground.height = newHeight4;
 
 function draw() {
+  document.addEventListener('mousedown', () => {
+    jump(bird);
+  });
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < pipes.length; i++) {
@@ -132,7 +125,7 @@ function draw() {
       coins.textContent = `Coins: ${db.coins}`;
     }
 
-    if (pipes[i].x == 1540) {
+    if (pipes[pipes.length - 1].x < 1540) {
       pipes.push({
         x: canvas.width,
         y: Math.floor(Math.random() * -pipeTop.height * 6),
@@ -150,13 +143,17 @@ function draw() {
     // Конец игры
     if (isMapBoundary || isPipeBoundary) {
       gameOver(score);
+
       context.clearRect(0, 0, canvas.width, canvas.height);
+
       pipes.length = 0;
       pipes[0] = {
         x: canvas.width,
         y: Math.floor(Math.random() * -pipeTop.height * 5),
       };
+
       score = 0;
+
       return;
     }
   }
@@ -179,9 +176,8 @@ function draw() {
 const play = document.querySelector('#play');
 
 play.addEventListener('click', () => {
-  if (db.skills.includes('downjump')) {
-    document.addEventListener('keypress', moveDown);
-  }
+  document.addEventListener('keypress', moveDown);
+
   document.querySelector('.page').style.display = 'none';
   bird.position.x = 200;
   bird.position.y = canvas.height / 3;
