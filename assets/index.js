@@ -89,9 +89,9 @@ function startGame() {
   bird.image.width = newWidth;
   bird.image.height = newHeight;
 
-  document.addEventListener('mousedown', () => {
-    jump(bird);
-  });
+  const handler = () => jump(bird);
+
+  canvas.addEventListener('mousedown', handler);
 
   function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -134,6 +134,7 @@ function startGame() {
         gameOver(score);
 
         context.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.removeEventListener('mousedown', handler);
 
         pipes.length = 0;
         pipes[0] = {
