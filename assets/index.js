@@ -63,34 +63,33 @@ const newHeight4 = newWidth4 / aspectRatio4;
 ground.width = newWidth4;
 ground.height = newHeight4;
 
+const startPosition = {
+  x: 200,
+  y: canvas.height / 3,
+};
+const bird = {
+  image: new Image(),
+  position: {
+    x: startPosition.x,
+    y: startPosition.y,
+  },
+  gravitation: 2,
+};
+
+bird.image.src = 'assets/images/bird.png';
+const aspectRatio = bird.image.height / bird.image.width;
+
+const newWidth = 50;
+const newHeight = newWidth / aspectRatio;
+bird.image.width = newWidth;
+bird.image.height = newHeight;
+
 function startGame() {
-  const bird = {
-    image: new Image(),
-    position: {
-      x: 0,
-      y: canvas.height / 3,
-    },
-    gravitation: 2,
-  };
-
-  bird.position.x = 200;
-  bird.image.src = 'assets/images/bird.png';
-
-  const aspectRatio = bird.image.height / bird.image.width;
-
-  const newWidth = 50;
-  const newHeight = newWidth / aspectRatio;
-
-  bird.image.width = newWidth;
-  bird.image.height = newHeight;
-
+  bird.position.y = startPosition.y;
+  bird.position.x = startPosition.x;
   const handler = () => jump(bird);
 
   canvas.addEventListener('mousedown', handler);
-
-  bird.image.onload = () => {
-    draw();
-  };
 
   function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -161,6 +160,8 @@ function startGame() {
 
     requestAnimationFrame(draw);
   }
+
+  draw();
 }
 
 const play = document.querySelector('#play');
