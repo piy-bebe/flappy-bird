@@ -88,6 +88,10 @@ function startGame() {
 
   canvas.addEventListener('mousedown', handler);
 
+  bird.image.onload = () => {
+    draw();
+  };
+
   function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -157,8 +161,6 @@ function startGame() {
 
     requestAnimationFrame(draw);
   }
-
-  draw();
 }
 
 const play = document.querySelector('#play');

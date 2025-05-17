@@ -11,14 +11,18 @@ export const gameOver = (score) => {
   text.textContent = `Счет: ${score}`;
 
   const close = document.createElement('button');
-  close.textContent = `В главное меню`;
+  close.classList.add('game-over__close');
+  close.textContent = `> В главное меню <`;
 
   close.addEventListener('click', () => {
     document.querySelector('.page').style.display = 'flex';
     popup.remove();
   });
 
-  popup.prepend(title, text, close);
+  const container = document.createElement('div');
+  container.classList.add('game-over__container');
+  container.prepend(title, text, close);
+  popup.prepend(container);
 
   const body = document.querySelector('body');
   body.prepend(popup);
