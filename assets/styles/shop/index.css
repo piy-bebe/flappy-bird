@@ -1,0 +1,75 @@
+.skills__container {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+
+  width: 600px;
+
+  border: 5px solid rgb(0, 0, 0);
+  background-color: #fff;
+}
+
+.skills__container:hover {
+  cursor: pointer;
+}
+
+.skill {
+  flex-shrink: 0;
+  border: 6px dashed #11bcff;
+  background-color: transparent;
+  color: #11bcff;
+  font-size: 0px;
+  width: 75px;
+  height: 75px;
+}
+.skills__info {
+  flex-grow: 1;
+}
+.skills__text {
+  font-family: 'Press Start 2P';
+  font-size: 10px;
+  line-height: 16px;
+}
+
+.skills__coins {
+  font-family: 'Press Start 2P';
+  font-size: 10px;
+  line-height: 16px;
+  color: #f8d406;
+  text-decoration: underline;
+}
+
+.skill:hover {
+  cursor: pointer;
+}
+
+.skill-size {
+  transform: scale(2.4);
+}
+
+.coins {
+  display: flex;
+  position: absolute;
+  font-family: 'Press Start 2P';
+  font-size: 24px;
+  color: #ffdb0e;
+  top: 5%;
+  right: 5%;
+}
+
+.back {
+  border: 0;
+  background-color: transparent;
+  color: white;
+  font-family: 'Press Start 2P';
+  font-size: 24px;
+  text-decoration: underline;
+  margin-top: 500px;
+}
+
+.back:hover {
+  cursor: pointer;
+  color: #5fff67;
+}
