@@ -8,13 +8,8 @@ const canvas = document.querySelector('#canvas');
 
 const context = canvas.getContext('2d');
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 // const background = new Image();
 // const foreground = new Image();
