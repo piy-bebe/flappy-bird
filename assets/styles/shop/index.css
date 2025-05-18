@@ -7,7 +7,7 @@
 
   width: 600px;
 
-  border: 5px solid rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0);
   background-color: #fff;
 }
 
@@ -17,7 +17,7 @@
 
 .skill {
   flex-shrink: 0;
-  border: 6px dashed #11bcff;
+  border: 4px dashed #11bcff;
   background-color: transparent;
   color: #11bcff;
   font-size: 0px;
@@ -46,7 +46,7 @@
 }
 
 .skill-size {
-  transform: scale(2.4);
+  transform: scale(3.2);
 }
 
 .coins {
