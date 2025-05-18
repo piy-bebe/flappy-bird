@@ -1,4 +1,5 @@
 import { jump } from '../game/core/movement.js';
+import { settings } from '../game/core/settings.js';
 import { skills } from '../game/core/shop.js';
 import { db } from '../game/store/index.js';
 import { gameOver } from './components/game-over.js';
@@ -27,7 +28,6 @@ const pipes = [];
 
 let gap = 140;
 let score = 0;
-let speedPipe = 3;
 
 const coins = document.querySelector('.coins');
 coins.textContent = 'Coins: 0';
@@ -73,7 +73,6 @@ const bird = {
     x: startPosition.x,
     y: startPosition.y,
   },
-  gravitation: 2,
 };
 
 bird.image.src = 'assets/images/bird.png';
@@ -104,7 +103,7 @@ function startGame() {
         pipeBottom.width
       );
 
-      pipes[i].x -= speedPipe;
+      pipes[i].x -= settings.pipe.velocity;
 
       if (pipes[i].x == 200 - bird.image.width) {
         score++;
@@ -152,7 +151,7 @@ function startGame() {
       context.drawImage(ground, i, canvas.height - ground.width, ground.height, ground.width);
     }
 
-    bird.position.y += bird.gravitation;
+    bird.position.y += settings.bird.gravity;
 
     context.fillStyle = '#fff';
     context.font = "124px 'Press Start 2P'";
