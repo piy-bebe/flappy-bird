@@ -12,9 +12,6 @@ const context = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// const background = new Image();
-// const foreground = new Image();
-// const pipeUp = new Image();
 const ground = new Image();
 
 const pipeTop = new Image();
@@ -120,11 +117,12 @@ function startGame() {
 
       const isMapBoundary =
         bird.position.y + bird.image.height - 30 > canvas.height - ground.width || bird.position.y < -40;
+
       const isPipeBoundary =
         bird.position.x + bird.image.width >= pipes[i].x &&
         bird.position.x <= pipes[i].x + pipeTop.height &&
-        (bird.position.y + 30 <= Math.abs(pipes[i].y + 550) ||
-          bird.position.y + (bird.image.height - 30) >= pipes[i].y + canvas.height - gap);
+        (bird.position.y + 8 <= Math.abs(pipes[i].y + 550) ||
+          bird.position.y + (bird.image.height - 15) >= pipes[i].y + canvas.height - gap);
 
       // Конец игры
       if (isMapBoundary || isPipeBoundary) {
