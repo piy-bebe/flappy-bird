@@ -4,6 +4,7 @@ const item = [
   {
     name: 'downjump',
     icon: 'keyboard_double_arrow_down',
+    amount: 10,
   },
 ];
 
@@ -11,9 +12,21 @@ const getHtml = (selector) => {
   return document.querySelector(`${selector}`);
 };
 
-const createSkill = ({ name, icon }) => {
+const createSkill = ({ name, icon, amount }) => {
   const container = document.createElement('div');
   container.classList.add('skills__container');
+
+  const overlay = document.createElement('div');
+  overlay.classList.add('skills__overlay');
+
+  const buy = document.createElement('button');
+  buy.classList.add('skills__buy');
+
+  const plus = document.createElement('span');
+  plus.className = 'material-symbols-outlined skills__plus';
+  plus.textContent = 'add';
+  buy.append(plus);
+  overlay.append(buy);
 
   const button = document.createElement('button');
   button.classList.add('skill');
@@ -23,11 +36,11 @@ const createSkill = ({ name, icon }) => {
 
   const text = document.createElement('p');
   text.classList.add('skills__text');
-  text.textContent = `Моментальное падение - эта способность позволяет быстро снижать высоту прыжка, что может быть полезно в некоторых ситуациях.`;
+  text.textContent = `Руна моментального падения - эта способность позволяет быстро снижать высоту прыжка, что может быть полезно в некоторых ситуациях.`;
 
   const coins = document.createElement('p');
   coins.classList.add('skills__coins');
-  coins.textContent = `10 Coins`;
+  coins.textContent = `${amount} Coins`;
   info.append(text, coins);
 
   const span = document.createElement('span');
@@ -36,7 +49,6 @@ const createSkill = ({ name, icon }) => {
 
   button.addEventListener('click', () => {
     if (db.coins >= 0) {
-      console.log('Покупка прошла успешно');
       db.skills.push('downjump');
       db.coins -= 10;
       const coins = document.querySelector('.coins');
@@ -44,9 +56,17 @@ const createSkill = ({ name, icon }) => {
     }
   });
 
+  container.addEventListener('mouseover', () => {
+    overlay.style.display = 'flex';
+  });
+
+  container.addEventListener('mouseout', () => {
+    overlay.style.display = 'none';
+  });
+
   button.append(span);
 
-  container.append(button, info);
+  container.append(overlay, button, info);
   return container;
 };
 
