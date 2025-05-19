@@ -1,4 +1,4 @@
-export const jump = ({ position, duration = 1000, height = 160 }) => {
+export const jump = ({ position, duration = 800, height = 120 }) => {
   const startTime = performance.now(); // Фиксируем время начала
   const startY = position.y; // Начальная позиция по Y
 
