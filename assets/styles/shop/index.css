@@ -40,6 +40,9 @@
   background-color: #fff;
 }
 
+.skills__overlay:active {
+}
+
 .skills__buy {
   font-family: 'Press Start 2P';
   font-size: 0px;
@@ -80,10 +83,12 @@
 
 .skills__coins {
   font-family: 'Press Start 2P';
-  font-size: 10px;
+  font-size: 16px;
+  text-transform: uppercase;
   line-height: 16px;
   color: #f8d406;
-  text-decoration: underline;
+
+  margin-top: auto;
 }
 
 .skill-size {

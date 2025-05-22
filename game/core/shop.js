@@ -52,7 +52,7 @@ const createSkill = ({ name, icon, amount, description, color }) => {
   const coins = document.createElement('p');
   coins.classList.add('skills__coins');
   coins.textContent = `${amount} Coins`;
-  info.append(text, coins);
+  info.append(text);
 
   const span = document.createElement('span');
   span.className = 'material-symbols-outlined skill-size';
@@ -78,7 +78,7 @@ const createSkill = ({ name, icon, amount, description, color }) => {
 
   button.append(span);
 
-  container.append(overlay, button, info);
+  container.append(overlay, button, info, coins);
   return container;
 };
 
