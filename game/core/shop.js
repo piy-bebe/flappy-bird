@@ -1,20 +1,30 @@
 import { db } from '../store/index.js';
 
-const item = [
+const container = document.querySelector('.skills');
+
+const items = [
   {
     name: 'downjump',
     icon: 'keyboard_double_arrow_down',
-    amount: 10,
+    description:
+      'Руна моментального падения - эта способность позволяет быстро снижать высоту прыжка, что может быть полезно в некоторых ситуациях.',
+    amount: 120,
+    color: '#00a0df',
+  },
+  {
+    name: 'slowdown',
+    icon: 'schedule',
+    description:
+      'Руна искажения времени - эта способность замедляет время движения преград, длительность 10 секунд.',
+    amount: 500,
+    color: '#7b00df',
   },
 ];
 
-const getHtml = (selector) => {
-  return document.querySelector(`${selector}`);
-};
-
-const createSkill = ({ name, icon, amount }) => {
+const createSkill = ({ name, icon, amount, description, color }) => {
   const container = document.createElement('div');
   container.classList.add('skills__container');
+  container.style.border = '7px dashed ' + color;
 
   const overlay = document.createElement('div');
   overlay.classList.add('skills__overlay');
@@ -36,7 +46,7 @@ const createSkill = ({ name, icon, amount }) => {
 
   const text = document.createElement('p');
   text.classList.add('skills__text');
-  text.textContent = `Руна моментального падения - эта способность позволяет быстро снижать высоту прыжка, что может быть полезно в некоторых ситуациях.`;
+  text.textContent = description;
 
   const coins = document.createElement('p');
   coins.classList.add('skills__coins');
@@ -46,11 +56,12 @@ const createSkill = ({ name, icon, amount }) => {
   const span = document.createElement('span');
   span.className = 'material-symbols-outlined skill-size';
   span.textContent = icon;
+  span.style.color = color;
 
   button.addEventListener('click', () => {
-    if (db.coins >= 0) {
-      db.skills.push('downjump');
-      db.coins -= 10;
+    if (db.coins >= amount) {
+      db.skills.push(name);
+      db.coins -= amount;
       const coins = document.querySelector('.coins');
       coins.textContent = `Coins: ${db.coins}`;
     }
@@ -71,7 +82,5 @@ const createSkill = ({ name, icon, amount }) => {
 };
 
 export const skills = () => {
-  const container = getHtml('.skills');
-
-  container.prepend(createSkill(item[0]));
+  container.prepend(...items.map((item) => createSkill(item)));
 };

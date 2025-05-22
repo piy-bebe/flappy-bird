@@ -29,7 +29,7 @@ let gap = 140;
 let score = 0;
 
 const coins = document.querySelector('.coins');
-coins.textContent = 'Coins: 0';
+coins.textContent = 'Coins: ' + db.coins;
 
 // pipeTop
 const aspectRatio2 = pipeTop.height / pipeTop.width;

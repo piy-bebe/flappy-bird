@@ -1,4 +1,4 @@
 export const db = {
-  coins: 0,
+  coins: 10000,
   skills: [],
 };
