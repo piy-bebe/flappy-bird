@@ -21,6 +21,8 @@ pipeTop.src = 'assets/images/pipeTop.png';
 pipeBottom.src = 'assets/images/pipeBottom.png';
 ground.src = 'assets/images/ground.png';
 
+let audioScore = new Audio();
+audioScore.src = 'assets/sounds/score.mp3';
 const pipes = [];
 
 let gap = 140;
@@ -103,6 +105,7 @@ function startGame() {
       pipes[i].x -= settings.pipe.velocity;
 
       if (pipes[i].x == 200 - bird.image.width) {
+        audioScore.play();
         score++;
         db.coins += 1;
         coins.textContent = `Coins: ${db.coins}`;

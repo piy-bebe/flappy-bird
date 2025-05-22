@@ -1,4 +1,7 @@
+const audioFly = new Audio('../../assets/sounds/fly.mp3');
+
 export const jump = ({ position, duration = 800, height = 120 }) => {
+  audioFly.play();
   const startTime = performance.now(); // Фиксируем время начала
   const startY = position.y; // Начальная позиция по Y
 
