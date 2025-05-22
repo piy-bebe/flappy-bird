@@ -86,7 +86,7 @@ function startGame() {
   bird.position.y = startPosition.y;
   bird.position.x = startPosition.x;
   const handler = () => jump(bird);
-  const handlerSpace = (e) => e.code === 'Space' && jump(bird);
+  const handlerSpace = (e) => e.code === 'Space' && !e.repeat && jump(bird);
 
   canvas.addEventListener('mousedown', handler);
 
