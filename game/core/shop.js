@@ -35,6 +35,7 @@ const createSkill = ({ name, icon, amount, description, color }) => {
   const plus = document.createElement('span');
   plus.className = 'material-symbols-outlined skills__plus';
   plus.textContent = 'add';
+  plus.style.color = color;
   buy.append(plus);
   overlay.append(buy);
 
