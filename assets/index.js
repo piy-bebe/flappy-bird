@@ -86,8 +86,11 @@ function startGame() {
   bird.position.y = startPosition.y;
   bird.position.x = startPosition.x;
   const handler = () => jump(bird);
+  const handlerSpace = (e) => e.code === 'Space' && jump(bird);
 
   canvas.addEventListener('mousedown', handler);
+
+  window.addEventListener('keydown', handlerSpace);
 
   function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -133,6 +136,7 @@ function startGame() {
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         canvas.removeEventListener('mousedown', handler);
+        window.removeEventListener('keydown', handlerSpace);
 
         pipes.length = 0;
         pipes[0] = {
