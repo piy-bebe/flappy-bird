@@ -1,6 +1,7 @@
-import { jump } from '../game/core/movement.js';
+import { cancelJump, jump } from '../game/core/movement.js';
 import { settings } from '../game/core/settings.js';
 import { skills } from '../game/core/shop.js';
+import { jumpDown } from '../game/core/skills.js';
 import { db } from '../game/store/index.js';
 import { gameOver } from './components/game-over.js';
 
@@ -85,12 +86,17 @@ bird.image.height = newHeight;
 function startGame() {
   bird.position.y = startPosition.y;
   bird.position.x = startPosition.x;
+
   const handler = () => jump(bird);
   const handlerSpace = (e) => e.code === 'Space' && !e.repeat && jump(bird);
+  // Навык: руна падения вниз
+  const handlerJumpDown = (e) => e.code === 'ArrowDown' && !e.repeat && jumpDown(bird, cancelJump);
 
   canvas.addEventListener('mousedown', handler);
 
   window.addEventListener('keydown', handlerSpace);
+
+  window.addEventListener('keydown', handlerJumpDown);
 
   function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -137,6 +143,7 @@ function startGame() {
         context.clearRect(0, 0, canvas.width, canvas.height);
         canvas.removeEventListener('mousedown', handler);
         window.removeEventListener('keydown', handlerSpace);
+        window.removeEventListener('keydown', handlerJumpDown);
 
         pipes.length = 0;
         pipes[0] = {

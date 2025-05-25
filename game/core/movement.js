@@ -1,26 +1,43 @@
 const audioFly = new Audio('../../assets/sounds/fly.mp3');
 
+// Создаем переменную для хранения ID анимации
+let jumpAnimationId = null;
+
 export const jump = ({ position, duration = 800, height = 120 }) => {
+  // Отменяем предыдущую анимацию, если она есть
+  if (jumpAnimationId) {
+    cancelAnimationFrame(jumpAnimationId);
+  }
+
   audioFly.pause();
   audioFly.currentTime = 0;
   audioFly.play();
-  const startTime = performance.now(); // Фиксируем время начала
-  const startY = position.y; // Начальная позиция по Y
+
+  const startTime = performance.now();
+  const startY = position.y;
 
   const animate = (currentTime) => {
     const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1); // 0...1
+    const progress = Math.min(elapsed / duration, 1);
 
-    // Плавное движение вверх-вниз (синусоида или квадратичная кривая)
-    const jumpProgress = Math.sin(progress * Math.PI); // 0...1...0
+    const jumpProgress = Math.sin(progress * Math.PI);
     position.y = startY - jumpProgress * height;
 
     if (progress < 1) {
-      window.requestAnimationFrame(animate);
+      jumpAnimationId = window.requestAnimationFrame(animate);
     } else {
-      position.y = startY; // Возврат в исходную позицию (опционально)
+      position.y = startY;
+      jumpAnimationId = null; // Сбрасываем ID при завершении
     }
   };
 
-  window.requestAnimationFrame(animate);
+  jumpAnimationId = window.requestAnimationFrame(animate);
+};
+
+// Функция для принудительной отмены анимации
+export const cancelJump = () => {
+  if (jumpAnimationId) {
+    cancelAnimationFrame(jumpAnimationId);
+    jumpAnimationId = null;
+  }
 };

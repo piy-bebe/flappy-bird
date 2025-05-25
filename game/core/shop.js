@@ -59,7 +59,7 @@ const createSkill = ({ name, icon, amount, description, color }) => {
   span.textContent = icon;
   span.style.color = color;
 
-  button.addEventListener('click', () => {
+  overlay.addEventListener('click', () => {
     if (db.coins >= amount) {
       db.skills.push(name);
       db.coins -= amount;
