@@ -1,5 +1,11 @@
+const audioDown = new Audio('../../assets/sounds/down.mp3');
+
 export const jumpDown = ({ position }, cancelJump) => {
   cancelJump();
+
+  audioDown.pause();
+  audioDown.currentTime = 0;
+  audioDown.play();
 
   const duration = 130;
   const height = 90;
